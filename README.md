@@ -61,7 +61,7 @@ erDiagram
 
 **Chart**
 
-![1) Top Paying Data Analyst Jobs]([images/top_paying_jobs.png](https://github.com/Deepakreddy99/Analysis_on_Data_jobs/blob/a0bcdec054ee38412159d1a5339b0a148502418c/charts%20and%20quarry/top_paying_jobs.png))
+![1) Top Paying Data Analyst Jobs](https://github.com/Deepakreddy99/Analysis_on_Data_jobs/blob/main/charts%20and%20quarry/top_paying_jobs.png?raw=true)
 
 **Insight**
 
@@ -98,7 +98,7 @@ WHERE
 
 **Chart**
 
-![2) Top Demanded Skills]([images/top_demanded_skills.png](https://github.com/Deepakreddy99/Analysis_on_Data_jobs/blob/a0bcdec054ee38412159d1a5339b0a148502418c/charts%20and%20quarry/top_demanded_skills.png))
+![2) Top Demanded Skills](https://github.com/Deepakreddy99/Analysis_on_Data_jobs/blob/main/charts%20and%20quarry/top_demanded_skills.png?raw=true)
 
 **Insight**
 
@@ -145,7 +145,7 @@ LIMIT 10
 
 **Chart**
 
-![3) Highest Paying Skills]([images/top_paying_skills.png](https://github.com/Deepakreddy99/Analysis_on_Data_jobs/blob/a0bcdec054ee38412159d1a5339b0a148502418c/charts%20and%20quarry/top_paying_skills.png))
+![3) Highest Paying Skills](https://github.com/Deepakreddy99/Analysis_on_Data_jobs/blob/main/charts%20and%20quarry/top_paying_skills.png?raw=true)
 
 **Insight**
 
