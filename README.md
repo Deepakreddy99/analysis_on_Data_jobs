@@ -213,7 +213,7 @@ ORDER BY tp.salary_year_avg DESC
 
 **Chart**
 
-![5) Optimal Skills (High Demand + High Salary)]([images/optimal_skills_scatter.png](https://github.com/Deepakreddy99/Analysis_on_Data_jobs/blob/a0bcdec054ee38412159d1a5339b0a148502418c/charts%20and%20quarry/optimal_skills_scatter.png))
+![5) Optimal Skills (High Demand + High Salary)](https://github.com/Deepakreddy99/Analysis_on_Data_jobs/blob/main/charts%20and%20quarry/optimal_skills_scatter.png?raw=true)
 
 **Insight**
 
