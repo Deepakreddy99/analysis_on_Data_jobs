@@ -1,5 +1,65 @@
 # Data Analyst Job Market Analysis (SQL)
-## Overview
+
+
+## Introduction
+This project analyzes the **Data Analyst job market** using SQL by exploring job postings, salary trends, and required skills. The goal is to identify the most valuable skills for data analysts by examining salary distributions, job demand, and the relationship between skills and compensation.
+
+The analysis focuses on answering key questions:
+
+- What are the highest-paying data analyst jobs?
+- Which skills are most frequently requested?
+- Which skills command the highest salaries?
+- What skills provide the best combination of demand and salary?
+
+---
+
+# Background
+
+The demand for data analysts continues to grow as organizations increasingly rely on data-driven decision making. However, the **salary levels and required skillsets vary widely depending on the tools and technologies used.**
+
+Understanding these trends helps:
+
+- Job seekers prioritize the most valuable skills
+- Professionals identify high-paying technologies
+- Companies understand the evolving analytics landscape
+
+This project explores job postings to uncover **real-world insights about the data analyst job market.**
+
+---
+
+# Tools Used
+
+| Tool | Purpose |
+|-----|------|
+| SQL | Data analysis |
+| PostgreSQL | Querying job datasets |
+| GitHub | Version control and documentation |
+| JSON/CSV | Query result datasets |
+
+### Key SQL Concepts Used
+
+- JOINs
+- Common Table Expressions (CTEs)
+- Aggregations (`COUNT`, `AVG`)
+- Subqueries
+- CASE statements
+- Filtering conditions
+
+---
+
+# Dataset Overview
+
+The dataset contains job postings along with associated skills and salary information. The main tables used include:
+
+- **job_postings_fact** – contains job posting details
+- **skills_job_dim** – maps jobs to required skills
+- **skills_dim** – contains skill names
+- **company_dim** – contains company information
+
+These tables were joined to analyze relationships between **skills, job demand, and salaries.**
+
+---
+## Analysis Overview
 This portfolio project analyzes the **Data Analyst** job market using SQL to answer:
 
 - **Top paying Data Analyst jobs**
