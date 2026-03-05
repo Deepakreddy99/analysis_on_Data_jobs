@@ -1,195 +1,310 @@
-# Data Analyst Job Market Analysis
+# Data Analyst Job Market Analysis (SQL)
+## Overview
+This portfolio project analyzes the **Data Analyst** job market using SQL to answer:
 
-## Introduction
-This project analyzes the **Data Analyst job market** using SQL by exploring job postings, salary trends, and required skills. The goal is to identify the most valuable skills for data analysts by examining salary distributions, job demand, and the relationship between skills and compensation.
+- **Top paying Data Analyst jobs**
+- **Most demanded skills**
+- **Highest paying skills**
+- **Optimal skills** (high demand + strong salary)
 
-The analysis focuses on answering key questions:
-
-- What are the highest-paying data analyst jobs?
-- Which skills are most frequently requested?
-- Which skills command the highest salaries?
-- What skills provide the best combination of demand and salary?
-
----
-
-# Background
-
-The demand for data analysts continues to grow as organizations increasingly rely on data-driven decision making. However, the **salary levels and required skillsets vary widely depending on the tools and technologies used.**
-
-Understanding these trends helps:
-
-- Job seekers prioritize the most valuable skills
-- Professionals identify high-paying technologies
-- Companies understand the evolving analytics landscape
-
-This project explores job postings to uncover **real-world insights about the data analyst job market.**
+All insights are generated from query outputs (CSV/JSON) and visualized below.
 
 ---
 
-# Tools Used
-
-| Tool | Purpose |
-|-----|------|
-| SQL | Data analysis |
-| PostgreSQL | Querying job datasets |
-| GitHub | Version control and documentation |
-| JSON/CSV | Query result datasets |
-
-### Key SQL Concepts Used
-
-- JOINs
-- Common Table Expressions (CTEs)
-- Aggregations (`COUNT`, `AVG`)
-- Subqueries
-- CASE statements
-- Filtering conditions
+## Tech Stack
+- SQL (PostgreSQL-style syntax)
+- Fact + dimension data model
+- Python (for charts)
+- GitHub for documentation
 
 ---
 
-# Dataset Overview
+## Database Schema (ER Diagram)
 
-The dataset contains job postings along with associated skills and salary information. The main tables used include:
+```mermaid
+erDiagram
+    JOB_POSTINGS_FACT ||--o{ SKILLS_JOB_DIM : has
+    SKILLS_DIM ||--o{ SKILLS_JOB_DIM : defines
+    COMPANY_DIM ||--o{ JOB_POSTINGS_FACT : posts
 
-- **job_postings_fact** – contains job posting details
-- **skills_job_dim** – maps jobs to required skills
-- **skills_dim** – contains skill names
-- **company_dim** – contains company information
+    JOB_POSTINGS_FACT {
+        int job_id PK
+        text job_title_short
+        numeric salary_year_avg
+        boolean job_work_from_home
+        int company_id FK
+    }
 
-These tables were joined to analyze relationships between **skills, job demand, and salaries.**
+    COMPANY_DIM {
+        int company_id PK
+        text name
+    }
 
----
+    SKILLS_DIM {
+        int skill_id PK
+        text skills
+    }
 
-# Analysis
+    SKILLS_JOB_DIM {
+        int job_id FK
+        int skill_id FK
+    }
+```
 
-## 1️⃣ Top Paying Data Analyst Jobs
-
-This analysis identifies the highest-paying data analyst roles.
-
-### Key Findings
-
-| Company | Job Title | Salary |
-|------|------|------|
-| Mantys | Data Analyst | $650,000 |
-| Meta | Director of Analytics | $336,500 |
-| AT&T | Associate Director – Data Insights | $255,829 |
-| Pinterest | Data Analyst, Marketing | $232,423 |
-| UCLA Health | Data Analyst (Hybrid/Remote) | $217,000 |
-
-### Insights
-
-- Leadership and senior analytics roles dominate the top salary range.
-- Many high-paying roles are **remote or hybrid positions**.
-- Advanced analytics leadership roles can exceed **$200k+ salaries**.
-
----
-
-## 2️⃣ Most Demanded Skills
-
-The most frequently requested skills in data analyst job postings:
-
-| Skill | Demand Count |
-|------|------|
-| SQL | 92,628 |
-| Excel | 67,031 |
-| Python | 57,326 |
-| Tableau | 46,554 |
-| Power BI | 39,468 |
-| R | 30,075 |
-| SAS | 28,068 |
-
-### Insights
-
-- **SQL remains the most important skill for data analysts.**
-- **Excel continues to be widely used in analytics workflows.**
-- Visualization tools like **Tableau and Power BI are highly demanded.**
-
-This indicates that **database querying + visualization tools are core analyst skills.**
+> Tip: If Mermaid doesn’t render on your GitHub view, export an ERD as `images/schema.png` and embed it.
 
 ---
 
-## 3️⃣ Highest Paying Skills
+# Analysis & Insights
 
-Some specialized tools command significantly higher salaries.
+## 1) Top Paying Data Analyst Jobs
 
-| Skill | Avg Salary |
-|------|------|
-| SVN | $400,000 |
-| Solidity | $179,000 |
-| Couchbase | $160,515 |
-| DataRobot | $155,486 |
-| Golang | $155,000 |
-| MXNet | $149,000 |
-| Terraform | $146,734 |
+**Chart**
 
-### Insights
+![1) Top Paying Data Analyst Jobs](images/top_paying_jobs.png)
 
-- Specialized tools related to **AI, machine learning, and infrastructure** command premium salaries.
-- These tools appear less frequently but offer **very high compensation when required.**
+**Insight**
 
----
+- Highest salaries are dominated by **senior / leadership** analytics roles.
+- Several postings exceed **$200k+**, showing strong pay for specialized analytics.
+- Many top roles appear as **remote/hybrid**, depending on the dataset.
 
-## 4️⃣ Optimal Skills (High Demand + High Salary)
+**SQL**
 
-Optimal skills are those that combine **high demand and strong salary potential.**
+```sql
+SELECT 
+   job_id,
+   cd.name as company_name,
+   job_title,
+   job_location,
+   job_schedule_type,
+   salary_year_avg,
+   job_posted_date
+FROM job_postings_fact as jp
+LEFT JOIN company_dim as cd ON cd.company_id = jp.company_id
+WHERE 
+    job_title_short = 'Data Analyst' 
+    AND job_work_from_home = TRUE
+    AND salary_year_avg is NOT NULL
+    ORDER BY salary_year_avg DESC
+    LIMIT 10
+```
 
-| Skill | Demand Count | Avg Salary |
-|------|------|------|
-| SQL | 398 | $96,435 |
-| Excel | 256 | $86,419 |
-| Python | 236 | $101,512 |
-| Tableau | 230 | $97,978 |
-| R | 148 | $98,708 |
-| Power BI | 110 | $92,324 |
+**Query Screenshot**
 
-### Insights
-
-These skills offer the **best career return for aspiring data analysts.**
-
-Key observations:
-
-- **Python provides strong salary growth potential**
-- **SQL is the foundational skill for analytics**
-- Visualization tools like **Tableau and Power BI remain essential**
-- Statistical tools like **R continue to be valuable**
+![Query - 1) Top Paying Data Analyst Jobs](images/top_paying_jobs_query.png)
 
 ---
 
-# Key Learnings
+## 2) Top Demanded Skills
 
-Through this project I strengthened my ability to:
+**Chart**
 
-- Write complex SQL queries using **CTEs and subqueries**
-- Perform **data aggregation and filtering**
-- Combine datasets using **JOIN operations**
-- Transform job market data into **actionable insights**
-- Communicate results using **structured data storytelling**
+![2) Top Demanded Skills](images/top_demanded_skills.png)
+
+**Insight**
+
+- **SQL** is the #1 demanded skill by a wide margin.
+- **Excel** remains very common in day-to-day analytics workflows.
+- Visualization tools (**Tableau / Power BI**) show strong demand.
+
+**SQL**
+
+```sql
+SELECT 
+   sd.skills,
+   sc.skill_count
+FROM skills_dim as sd
+JOIN(
+SELECT sj.skill_id,
+    count (sj.job_id) as skill_count 
+FROM  skills_job_dim AS sj 
+JOIN job_postings_fact as jp ON sj.job_id = jp.job_id
+WHERE job_title_short = 'Data Analyst'
+GROUP BY sj.skill_id
+) as sc ON sd.skill_id = sc.skill_id
+ORDER BY sc.skill_count DESC
+LIMIT 10 ;
+
+
+SELECT
+    skills ,
+    count(jp.job_id) as demand_count 
+FROM job_postings_fact jp
+JOIN skills_job_dim as sj ON jp.job_id = sj.job_id
+JOIN skills_dim AS sd ON sd.skill_id = sj.skill_id
+WHERE job_title_short = 'Data Analyst'
+GROUP BY skills
+ORDER BY demand_count DESC
+LIMIT 10
+```
+
+**Query Screenshot**
+
+![Query - 2) Top Demanded Skills](images/top_demanded_skills_query.png)
 
 ---
 
-# Key Takeaways
+## 3) Highest Paying Skills
 
-The data analyst job market reveals several important trends:
+**Chart**
 
-### SQL is the foundation skill
-Nearly every data analyst role requires SQL.
+![3) Highest Paying Skills](images/top_paying_skills.png)
 
-### Python increases earning potential
-Python enables advanced analytics, automation, and machine learning.
+**Insight**
 
-### Visualization tools are essential
-Tableau and Power BI appear frequently in job postings.
+- Some very high-paying skills are **specialized** (often closer to ML/infra/data engineering).
+- These skills may be less frequent in pure analyst roles but command premium pay when required.
 
-### Cloud and big data skills are growing
-Skills related to **Snowflake, AWS, and Azure** are increasingly valuable.
+**SQL**
+
+```sql
+SELECT
+    skills ,
+   round (avg(salary_year_avg),0) as Avg_salary
+FROM job_postings_fact jp
+JOIN skills_job_dim as sj ON jp.job_id = sj.job_id
+JOIN skills_dim AS sd ON sd.skill_id = sj.skill_id
+WHERE job_title_short = 'Data Analyst' 
+AND salary_year_avg is NOT NULL
+GROUP BY skills
+ORDER BY  Avg_salary DESC
+LIMIT 10
+```
+
+**Query Screenshot**
+
+![Query - 3) Highest Paying Skills](images/top_paying_skills_query.png)
 
 ---
 
-# Conclusion
+## 4) Skills in Top Paying Jobs
 
-This project demonstrates how SQL can be used to analyze real-world job market data and extract career insights.
+**Insight**
 
-The most valuable skill combination for aspiring data analysts is:
+- Top paying jobs often list a mix of **core analytics** (SQL/Python) and **data platforms** (cloud/tools).
 
-**SQL + Python + Visualization Tools (Tableau / Power BI)**
+**SQL**
 
-This combination provides the best balance between **job demand, salary potential, and long-term career growth.**
+```sql
+WITH top_paying_jobs AS (
+SELECT 
+   job_id,
+   cd.name as company_name,
+   job_title,
+   salary_year_avg
+FROM job_postings_fact as jp
+LEFT JOIN company_dim as cd ON cd.company_id = jp.company_id
+WHERE 
+    job_title_short = 'Data Analyst' 
+    AND job_work_from_home = TRUE
+    AND salary_year_avg is NOT NULL
+    ORDER BY salary_year_avg DESC
+    LIMIT 10)
+
+SELECT
+  tp.*,
+  sd.skills
+FROM top_paying_jobs as tp
+JOIN skills_job_dim as sj ON tp.job_id = sj.job_id
+JOIN skills_dim AS sd ON sd.skill_id = sj.skill_id
+ORDER BY tp.salary_year_avg DESC
+```
+
+**Query Screenshot**
+
+![Query - Skills in Top Paying Jobs](images/top_paying_job_skills_query.png)
+
+---
+
+## 5) Optimal Skills (High Demand + High Salary)
+
+**Chart**
+
+![5) Optimal Skills (High Demand + High Salary)](images/optimal_skills_scatter.png)
+
+**Insight**
+
+- The best ROI skills sit in the **high-demand + high-salary** region.
+- A strong learning path from this dataset: **SQL + Python + Visualization (Tableau/Power BI)**.
+- Use this view to decide which skills to prioritize first.
+
+**SQL**
+
+```sql
+WITH demanded_skills AS (
+    SELECT
+        sd.skill_id,
+        sd.skills,
+        COUNT(jp.job_id) AS demand_count
+    FROM job_postings_fact jp
+    JOIN skills_job_dim sj
+        ON jp.job_id = sj.job_id
+    JOIN skills_dim sd
+        ON sd.skill_id = sj.skill_id
+    WHERE jp.job_title_short = 'Data Analyst'
+      AND jp.salary_year_avg IS NOT NULL
+      AND jp.job_work_from_home = TRUE
+    GROUP BY sd.skill_id, sd.skills
+),
+average_salary AS (
+    SELECT
+        sd.skill_id,
+        ROUND(AVG(jp.salary_year_avg), 0) AS avg_salary
+    FROM job_postings_fact jp
+    JOIN skills_job_dim sj
+        ON jp.job_id = sj.job_id
+    JOIN skills_dim sd
+        ON sd.skill_id = sj.skill_id
+    WHERE jp.job_title_short = 'Data Analyst'
+      AND jp.salary_year_avg IS NOT NULL
+    GROUP BY sd.skill_id
+)
+SELECT
+    ds.skill_id,
+    ds.skills,
+    ds.demand_count,
+    a.avg_salary
+FROM demanded_skills ds
+JOIN average_salary a
+    ON ds.skill_id = a.skill_id
+ORDER BY ds.demand_count DESC, a.avg_salary DESC
+LIMIT 25;
+```
+
+**Query Screenshot**
+
+![Query - 5) Optimal Skills (High Demand + High Salary)](images/optimal_skills_query.png)
+
+---
+
+## What I Added (Portfolio Upgrades)
+
+- ✅ **Graphs/Charts** (saved under `images/`)
+- ✅ **SQL code blocks** embedded under each section
+- ✅ **Query screenshots** (rendered images of the SQL) to make the repo visually strong
+- ✅ **ER diagram** (Mermaid) to explain the schema clearly
+
+## Suggested Repo Structure
+
+```
+.
+├─ sql/
+│  ├─ Top_paying_jobs.sql
+│  ├─ Top_demanded_skills.sql
+│  ├─ Top_skills_on_$.sql
+│  ├─ Top_paying_on_skills.sql
+│  └─ Optimal_skills.sql
+├─ data/
+│  ├─ Top paying jobs.csv
+│  ├─ Top Demanded skills.csv
+│  ├─ top skills based on pay.csv
+│  ├─ Top paying on skills.csv
+│  └─ Optimal skills.csv
+└─ images/
+   ├─ top_paying_jobs.png
+   ├─ top_demanded_skills.png
+   ├─ top_paying_skills.png
+   ├─ optimal_skills_scatter.png
+   └─ *_query.png
+```
