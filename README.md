@@ -335,7 +335,93 @@ JOIN average_salary a
 ORDER BY ds.demand_count DESC, a.avg_salary DESC
 LIMIT 25;
 ```
+---
 
+# What I Learned
+
+This project helped strengthen both my **SQL analysis skills** and my understanding of the **Data Analyst job market**.
+
+### 1. Translating Business Questions into SQL Queries
+I learned how to translate real-world analytical questions into SQL queries, such as:
+
+- Identifying the **highest paying jobs**
+- Finding the **most demanded skills**
+- Discovering which skills provide the **best salary potential**
+
+This required structuring queries using filters, joins, aggregations, and ordering to extract meaningful insights.
+
+---
+
+### 2. Working with Relational Data Models
+The dataset follows a **fact and dimension schema**, which reflects how analytical databases are structured.
+
+I practiced working with multiple related tables:
+
+- `job_postings_fact`
+- `skills_job_dim`
+- `skills_dim`
+- `company_dim`
+
+Using joins between these tables helped analyze relationships between **jobs, skills, salaries, and companies.**
+
+---
+
+### 3. Using SQL for Data Analysis
+This project strengthened my ability to perform analytical tasks using SQL, including:
+
+- Using **JOINs** to combine multiple datasets
+- Applying **aggregations** (`COUNT`, `AVG`) to identify trends
+- Creating **Common Table Expressions (CTEs)** to simplify complex queries
+- Filtering datasets to focus on specific job roles
+- Ranking results to find **top jobs and high-value skills**
+
+These are core techniques used in real-world **data analyst workflows.**
+
+---
+
+### 4. Understanding the Data Analyst Skill Landscape
+By analyzing job postings and salary data, I gained insights into the most valuable skills in the market.
+
+Some observations include:
+
+- **SQL** remains the most essential and widely demanded skill.
+- **Excel** continues to be heavily used for everyday analytics tasks.
+- **Visualization tools** like Tableau and Power BI are important for reporting and dashboards.
+- Advanced or specialized tools tend to appear less frequently but can offer **higher salaries.**
+
+---
+
+### 5. Communicating Data Insights
+Beyond querying the data, this project helped me practice presenting insights clearly through:
+
+- Visualizations
+- Structured documentation
+- GitHub project presentation
+
+This is important because data analysts must **communicate insights effectively**, not just perform analysis.
+
+---
+
+# Conclusion
+
+This project analyzes the **Data Analyst job market** by exploring job postings, salary trends, and required skills using SQL.
+
+The analysis reveals several key insights:
+
+- **SQL remains the most important foundational skill** for data analysts and appears in the majority of job postings.
+- **Excel and visualization tools** such as Tableau and Power BI are widely used for business analysis and reporting.
+- **Higher-paying roles often require a broader technical skillset**, including programming and advanced analytics tools.
+- Skills like **Python and advanced data tools** are associated with higher salaries.
+
+When considering both **job demand and salary potential**, the most valuable skill combination for aspiring data analysts appears to be:
+
+- SQL  
+- Python  
+- Data Visualization (Tableau / Power BI)
+
+These skills form the **core toolkit for modern analytics professionals.**
+
+Overall, this project demonstrates how SQL can be used to extract meaningful insights from real-world job market data and highlights the **skills that offer the strongest career opportunities in data analytics.**
 
 
 
